@@ -1,0 +1,18 @@
+import java.util.Scanner;
+public class exc16 {
+	public static void main(String[] args) {
+		
+			int a = 32;
+			int b = 34;
+			 a : gcm(b, a % b);
+			long gcm = gcm(a, b);
+			System.out.print(a/gcm + "/" + b/gcm);
+	}
+		public static long gcm(long a, long b) {
+		    return b == 0 ? a : gcm(b, a % b); // Not bad for one line of code :)
+		}
+			public static String asFraction(long a, long b) {
+			    long gcm = gcm(a, b);
+			    return (a / gcm) + "/" + (b / gcm);
+			}
+		}
