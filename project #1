@@ -101,6 +101,8 @@ public class Exc8 {
 				}
 				if (!(finalimprop == 0) && !(finalwhole == 0)) {
 					System.out.println(finalwhole + " " + finalimprop + "/" + eqden);
+				}else {
+					System.out.println(0);
 				}
 			}
 			if (op.contains("/")) { // solving for division
@@ -114,7 +116,7 @@ public class Exc8 {
 				} else if (!(finalimprop == 0) && !(finalwhole == 0)) {
 					System.out.println(finalwhole + " " + finalimprop + "/" + eqden);
 				} else
-					System.out.println("Undefined");
+					System.out.println(0);
 
 			}
 			System.out.println("Enter expression:");
@@ -206,10 +208,7 @@ public class Exc8 {
 		finalimprop = impropnum1 - impropnum2;
 	}
 
-	private static void rearrange() {
-		num2 = num1;
-		num1 = num2;
-	}
+	
 
 	private static void divide() {
 		finalimprop = numer1 * denom2;
@@ -222,13 +221,5 @@ public class Exc8 {
 		eqden = eqden;
 	}
 
-	private static void negative() {
-
-	}
-
-	private static void square() {
-		int x = numer1 * numer1;
-		int c = denom1 * denom1;
-		System.out.println(x + " " + c);
-	}
+	
 }
