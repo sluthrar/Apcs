@@ -1,4 +1,4 @@
-package app;
+package exc11;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -33,16 +33,15 @@ public class exc11 {
 	public static int num3;
 	public static int numer3;
 	public static int denom3;
-	/*
-	 * 1/7 * 3/7 1/3 * -1/5 1/2 * 2/3 3 * -1 1_11/25 * 3_1/8 3/10 * 10/3
-	 */
+
+
 	public static void main(String[] args) {
 		String f1 = null;
 		System.out.println("Welcome to my calculator.");
 		System.out.println("Enter expression:");
 		Scanner tree = new Scanner(System.in);
 		f1 = tree.nextLine();
-		if (f1.equals("quit") || f1.equals("")) {
+		if (f1.equals("quit") || f1.equals("")) {// this is if the user wants to end the program They can also enter nothing and that will end the program
 			System.out.println("bye!");
 			System.exit(0);
 		}
@@ -54,175 +53,121 @@ public class exc11 {
 				numbone = tokens[0];
 				op = tokens[2];
 				numbtwo = tokens[3];
+				processfractions();
+				solve();
 			}
-			 
-		if(tokens.length == 5) {
-	             numbone = tokens[0];
-	             op = tokens[1];
-	             numbtwo = tokens[2];
-	             op2 = tokens[3];
-	             numbthree = tokens[4];
-	             multipleeq();
-	            if(op.contains("+") && op2.contains("-")) {
-	            	Addfractionsmix();
-	            	numer1 = finalimprop;
-	            	denom1 = eqden;
-	            	subtract();
-	            	simplify();
-	            }
-	             if(op.contains("+") && op2.contains("*")) {
-	                    addthenmult();
-	                    simplify();
-	             }
-	             
-	             System.out.println(finalimprop + "/" + eqden);
-	       }
 
-			processfractions(); // this converts String into the whole, numerator and denominator integers
-			  if (tokens.length == 3) {
-					numbone = tokens[0];
-					op = tokens[1];
-					numbtwo = tokens[2];
-			 if (op.contains("+")) { // solving for addition
-				Addfractionsmix();
-				simplify();
-				convtomix();
-				if (finalwhole < 0) { // these if statements are if the whole is negative
-					finalimprop = finalimprop * -1;
-				}
-				if (finalwhole == 0 && finalimprop == 0) {
-					System.out.println(0);
-				}
-				if (finalwhole == 0 && !(finalimprop == 0)) {
+			else if (tokens.length == 5) { // handling two step equations
+				numbone = tokens[0];
+				op = tokens[1];
+				numbtwo = tokens[2];
+				op2 = tokens[3];
+				numbthree = tokens[4];
+				multipleeq();
+				if (op.contains("+") && op2.contains("-")) {
+					Addfractionsmix();
+					subtract2();
+					simplify();
+					if(eqden == 1) {
+						System.out.println(finalimprop);
+					} else {
 					System.out.println(finalimprop + "/" + eqden);
+					}
 				}
-				if (finalimprop == 0 && !(finalwhole == 0)) {
-					System.out.println(finalwhole);
-				}
-				if (!(finalwhole == 0) && !(finalimprop == 0)) {
-					System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
-				} // these if statements are if the whole or improper = 0 and we want to make the
-					// output simpler
-			}
-			else if (op.contains("*")) { // solving for multiplication
-				Multiplyfractions();
-				simplify();
-				convtomix();
-				if (finalwhole < 0) {
-					finalimprop = finalimprop * -1;
-				}
-				if (finalwhole == 0 && !(finalimprop == 0)) {
+				if (op.contains("+") && op2.contains("*")) {
+					addthenmult();
+					simplify();
+					if(eqden == 1) {
+						System.out.println(finalimprop);
+					} else {
 					System.out.println(finalimprop + "/" + eqden);
-				} else if (finalimprop == 0 && !(finalwhole == 0)) {
-					System.out.println(finalwhole);
-				} else if (!(finalimprop == 0) && !(finalwhole == 0)) {
-					System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
-				} else {
-					System.out.println(0);
+					}
 				}
 
 			}
-			if (op.contains("-")) { // solving for subtraction
-				subtract();
-				simplify();
-				convtomix();
-				if (finalwhole < 0) { // these if statements are if the whole is negative
-					finalimprop = finalimprop * -1;
-				}
-				if (finalwhole == 0 && !(finalimprop == 0)) {
-					System.out.println(finalimprop + "/" + eqden);
-				}
-				if (finalwhole == 0 && finalimprop == 0) {
-					System.out.println(0);
-				} else if (finalimprop == 0 && !(finalwhole == 0)) {
-					System.out.println(finalwhole);
-				}
-				if (!(finalimprop == 0) && !(finalwhole == 0)) {
-					System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
-				}
-			}
-			if (op.contains("/")) { // solving for division
-				divide();
-				simplify();
-				convtomix();
-				if (finalwhole == 0 && !(finalimprop == 0)) {
-					System.out.println(finalimprop + "/" + eqden);
-				} else if (finalimprop == 0 && !(finalwhole == 0)) {
-					System.out.println(finalwhole);
-				} else if (!(finalimprop == 0) && !(finalwhole == 0)) {
-					System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
-				} else
-					System.out.println("Undefined");
 
-			}}
+			else if (tokens.length == 3) {// handling simple one step equations
+				numbone = tokens[0];
+				op = tokens[1];
+				numbtwo = tokens[2];
+				processfractions();// this converts String into the whole, numerator and denominator integers
+				solve();
+			} else{
+				System.out.println("Invalid String");// this is if the user doesnt input the correct amount of words seperated by spaces
+			}
 			System.out.println("Enter expression:");
 			f1 = tree.nextLine();
 		}
-	}private static void multipleeq() {
-        if (numbone.contains("_")) {
-            whole = numbone.substring(0, numbone.indexOf("_"));
-            numerone = (String) numbone.substring(numbone.indexOf("_") + 1, numbone.indexOf("/"));
-            denone = (String) numbone.substring(numbone.indexOf("/") + 1);
-            num1 = Integer.parseInt(whole);
-            numer1 = Integer.parseInt(numerone);
-            denom1 = Integer.parseInt(denone);
-            numer1 = (denom1 * num1) + numer1; // CONVERTS ALL INPUTS TO IMPROPER FRACTIONS ALTHOUGH OUTPUT IS MIXED
-     } else if (numbone.contains("/") && !numbone.contains("_")) {
-            numerone = numbone.substring(0, numbone.indexOf("/"));
-            denone = (String) numbone.substring(numbone.indexOf("/") + 1);
-            numer1 = Integer.parseInt(numerone);
-            denom1 = Integer.parseInt(denone);
+	}
 
-     } else {
-            whole = numbone;
-            num1 = Integer.parseInt(whole);
-            numer1 = num1;
-            denom1 = 1;
-     }if (numbtwo.contains("_")) {
-            whole2 = numbtwo.substring(0, numbtwo.indexOf("_"));
-            numerone2 = numbtwo.substring(numbtwo.indexOf("_") + 1, numbtwo.indexOf("/"));
-            denone2 = numbtwo.substring(numbtwo.indexOf("/") + 1);
-            numer2 = Integer.parseInt(numerone2);
-            denom2 = Integer.parseInt(denone2);
-            num2 = Integer.parseInt(whole2);
-            numer2 = (denom2 * num2) + numer2;
+	private static void multipleeq() { // this is the same thing as process fractions except this deals with three integers not two
+		if (numbone.contains("_")) {
+			whole = numbone.substring(0, numbone.indexOf("_"));
+			numerone = (String) numbone.substring(numbone.indexOf("_") + 1, numbone.indexOf("/"));
+			denone = (String) numbone.substring(numbone.indexOf("/") + 1);
+			num1 = Integer.parseInt(whole);
+			numer1 = Integer.parseInt(numerone);
+			denom1 = Integer.parseInt(denone);
+			numer1 = (denom1 * num1) + numer1; // CONVERTS ALL INPUTS TO IMPROPER FRACTIONS ALTHOUGH OUTPUT IS MIXED
+		} else if (numbone.contains("/") && !numbone.contains("_")) {
+			numerone = numbone.substring(0, numbone.indexOf("/"));
+			denone = (String) numbone.substring(numbone.indexOf("/") + 1);
+			numer1 = Integer.parseInt(numerone);
+			denom1 = Integer.parseInt(denone);
 
-     } else if (numbtwo.contains("/") && !numbtwo.contains("_")) {
-            numerone2 = numbtwo.substring(0, numbtwo.indexOf("/"));
-            denone2 = (String) numbtwo.substring(numbtwo.indexOf("/") + 1);
-            numer2 = Integer.parseInt(numerone2);
-            denom2 = Integer.parseInt(denone2);
+		} else {
+			whole = numbone;
+			num1 = Integer.parseInt(whole);
+			numer1 = num1;
+			denom1 = 1;
+		}
+		if (numbtwo.contains("_")) {
+			whole2 = numbtwo.substring(0, numbtwo.indexOf("_"));
+			numerone2 = numbtwo.substring(numbtwo.indexOf("_") + 1, numbtwo.indexOf("/"));
+			denone2 = numbtwo.substring(numbtwo.indexOf("/") + 1);
+			numer2 = Integer.parseInt(numerone2);
+			denom2 = Integer.parseInt(denone2);
+			num2 = Integer.parseInt(whole2);
+			numer2 = (denom2 * num2) + numer2;
 
-     }
+		} else if (numbtwo.contains("/") && !numbtwo.contains("_")) {
+			numerone2 = numbtwo.substring(0, numbtwo.indexOf("/"));
+			denone2 = (String) numbtwo.substring(numbtwo.indexOf("/") + 1);
+			numer2 = Integer.parseInt(numerone2);
+			denom2 = Integer.parseInt(denone2);// changes string to integer
 
-     else {
-            whole2 = numbtwo;
-            num2 = Integer.parseInt(whole2);
-            numer2 = num2;
-            denom2 = 1;
-     }if (numbthree.contains("_")) {
-            whole3 = numbthree.substring(0, numbthree.indexOf("_"));
-            numerone3 = numbthree.substring(numbthree.indexOf("_") + 1, numbthree.indexOf("/"));
-            denone3 = numbthree.substring(numbthree.indexOf("/") + 1);
-            numer3 = Integer.parseInt(numerone3);
-            denom3= Integer.parseInt(denone3);
-            num3 = Integer.parseInt(whole3);
-            numer3 = (denom3 * num3) + numer3;
+		}
 
-     } else if (numbthree.contains("/") && !numbthree.contains("_")) {
-            numerone3 = numbthree.substring(0, numbthree.indexOf("/"));
-            denone3 = (String) numbthree.substring(numbthree.indexOf("/") + 1);
-            numer3 = Integer.parseInt(numerone3);
-            denom3 = Integer.parseInt(denone3);
+		else {
+			whole2 = numbtwo;
+			num2 = Integer.parseInt(whole2);
+			numer2 = num2;
+			denom2 = 1;
+		}
+		if (numbthree.contains("_")) {
+			whole3 = numbthree.substring(0, numbthree.indexOf("_"));
+			numerone3 = numbthree.substring(numbthree.indexOf("_") + 1, numbthree.indexOf("/"));
+			denone3 = numbthree.substring(numbthree.indexOf("/") + 1);
+			numer3 = Integer.parseInt(numerone3);
+			denom3 = Integer.parseInt(denone3);
+			num3 = Integer.parseInt(whole3);
+			numer3 = (denom3 * num3) + numer3;
 
-     }
+		} else if (numbthree.contains("/") && !numbthree.contains("_")) {
+			numerone3 = numbthree.substring(0, numbthree.indexOf("/"));
+			denone3 = (String) numbthree.substring(numbthree.indexOf("/") + 1);
+			numer3 = Integer.parseInt(numerone3);
+			denom3 = Integer.parseInt(denone3);
 
-     else {
-            whole3 = numbthree;
-            num3 = Integer.parseInt(whole3);
-            numer3 = num3;
-            denom3 = 1;
-     } }
+		}
+
+		else {
+			whole3 = numbthree;
+			num3 = Integer.parseInt(whole3);
+			numer3 = num3;
+			denom3 = 1;
+		}
+	}
 
 	private static void processfractions() { // chops String up into three parts then converts them to integers
 		if (numbone.contains("_")) {
@@ -274,56 +219,142 @@ public class exc11 {
 		eqden = denom2 * denom1;
 		impropnum1 = numer1 * denom2;
 		impropnum2 = numer2 * denom1;
-		finalimprop = impropnum1 + impropnum2;
+		finalimprop = impropnum1 + impropnum2; // implements simple rules of adding fractions
 	}
 
 	private static void simplify() {
 
-		int finalimprop_abs = Math.abs(finalimprop);
+		int finalimprop_abs = Math.abs(finalimprop); // converts the fraction into a positive DOES NOT CHANGE THE ACTUAL VALUE
 		int eqden_abs = Math.abs(eqden);
 
-		int min_num = Math.min(finalimprop_abs, eqden_abs);
+		int min_num = Math.min(finalimprop_abs, eqden_abs); // sees which one is smaller, this will be the highest divisor
 
 		int divisor = 1;
 
-		for (int i = 1; i <= min_num; i++) {
+		for (int i = 1; i <= min_num; i++) { // for loop slowly increments by one till the smaller number and divides by every number on the way to see if its whole
 			if (finalimprop % i == 0 && eqden % i == 0) {
 
-				divisor = i;
+				divisor = i; // if the division results in a whole number, the incremented number is stored as the divisor, this may obviously change
 			}
 		}
 		finalimprop = finalimprop / divisor;
-		eqden = eqden / divisor;
+		eqden = eqden / divisor; // at the end the equation is simplified
 	}
 
 	private static void Multiplyfractions() {
 		finalimprop = numer1 * numer2;
-		eqden = denom1 * denom2;
+		eqden = denom1 * denom2; // simple rules of multiplying fractions
 	}
 
 	private static void subtract() {
 		eqden = denom1 * denom2;
 		impropnum1 = numer1 * denom2;
 		impropnum2 = numer2 * denom1;
-		finalimprop = impropnum1 - impropnum2;
+		finalimprop = impropnum1 - impropnum2;// simple rules of subtracting fractions
+	}
+
+	private static void subtract2() {
+		impropnum1 = finalimprop * denom3;
+		impropnum2 = numer3 * eqden;
+		eqden = eqden * denom3;
+		finalimprop = impropnum1 - impropnum2; // this is for subtracting two step equations, when the second part is the subtraction part
 	}
 
 	private static void divide() {
 		finalimprop = numer1 * denom2;
-		eqden = denom1 * numer2;
+		eqden = denom1 * numer2; // simple rules of dividing fractions, switching the second number and multiplying
 	}
 
 	private static void convtomix() {
 		finalwhole = finalimprop / eqden;
 		finalimprop = finalimprop % eqden;
-		eqden = eqden;
-	} private static void addthenmult() {
-        finalimprop = numer2 * numer3;
-        eqden = denom2 * denom3;
-        impropnum2 = numer1 * eqden;
-  eqden = eqden * denom1;
-impropnum1 = finalimprop * denom1;
-finalimprop = impropnum1 + impropnum2;
-        }
+		eqden = eqden; // this converts the improper fraction made in the process fractions method to a mixed number, which will be outputted
+	}
 
+	private static void addthenmult() {
+		finalimprop = numer2 * numer3;
+		eqden = denom2 * denom3;
+		impropnum2 = numer1 * eqden;
+		eqden = eqden * denom1;
+		impropnum1 = finalimprop * denom1;
+		finalimprop = impropnum1 + impropnum2; // this is for the two step equation where the second part is multiplying
+	}
+
+	private static void solve() {
+		if (op.contains("+")) { // solving for addition
+			Addfractionsmix();
+			simplify();
+			convtomix();
+			if (finalwhole < 0) { // these if statements are if the whole is negative
+				finalimprop = finalimprop * -1;
+			}
+			if (finalwhole == 0 && finalimprop == 0) {
+				System.out.println(0);
+			}
+			if (finalwhole == 0 && !(finalimprop == 0)) {
+				System.out.println(finalimprop + "/" + eqden);
+			}
+			if (finalimprop == 0 && !(finalwhole == 0)) {
+				System.out.println(finalwhole);
+			}
+			if (!(finalwhole == 0) && !(finalimprop == 0)) {
+				System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
+			} // these if statements are if the whole or improper = 0 and we want to make the
+				// output simpler
+		} else if (op.contains("*")) { // solving for multiplication
+			Multiplyfractions();
+			simplify();
+			convtomix();
+			if (finalwhole < 0) {
+				finalimprop = finalimprop * -1;
+			}
+			if (finalwhole == 0 && !(finalimprop == 0)) {
+				System.out.println(finalimprop + "/" + eqden);
+			} else if (finalimprop == 0 && !(finalwhole == 0)) {
+				System.out.println(finalwhole);
+			} else if (!(finalimprop == 0) && !(finalwhole == 0)) {
+				System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
+			} else {
+				System.out.println(0);
+			}
+
+		}
+		if (op.contains("-")) { // solving for subtraction
+			subtract();
+			simplify();
+			convtomix();
+			if (finalwhole < 0) { // these if statements are if the whole is negative
+				finalimprop = finalimprop * -1;
+			}
+			if (finalwhole == 0 && !(finalimprop == 0)) {
+				System.out.println(finalimprop + "/" + eqden);
+			}
+			if (finalwhole == 0 && finalimprop == 0) {
+				System.out.println(0);
+			} else if (finalimprop == 0 && !(finalwhole == 0)) {
+				System.out.println(finalwhole);
+			}
+			if (!(finalimprop == 0) && !(finalwhole == 0)) {
+				System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
+			}
+		}
+		if (op.contains("/")) { // solving for division
+			divide();
+			simplify();
+			convtomix();
+			if(finalwhole < 0) {
+				finalimprop = finalimprop * -1;
+			}
+			if (finalwhole == 0 && !(finalimprop == 0)) {
+				System.out.println(finalimprop + "/" + eqden);
+			} else if (finalimprop == 0 && !(finalwhole == 0)) {
+				System.out.println(finalwhole);
+			} else if (!(finalimprop == 0) && !(finalwhole == 0)) {
+				System.out.println(finalwhole + "_" + finalimprop + "/" + eqden);
+			} else if ((finalwhole == 0) && (finalimprop == 0)) {
+				System.out.println("Undefined"); // this is if the number is being divided by 0
+
+		}}
+
+	}
 }
